@@ -1,6 +1,8 @@
 [gd_scene format=3 uid="uid://ccbhhay387lgt"]
 
 [ext_resource type="Script" uid="uid://b4jpk7cdnvtnl" path="res://src/scripts/characters/player.gd" id="1_vcdsh"]
+[ext_resource type="PackedScene" uid="uid://loxujlrkmpqk" path="res://src/scenes/effects/death.tscn" id="2_2ul2v"]
+[ext_resource type="PackedScene" uid="uid://d0cxym828bj1v" path="res://src/scenes/ui/end_game_scene.tscn" id="3_2elb6"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_bdagp"]
 load_path = "res://.godot/imported/Warrior_Blue.png-dd7f450b71886356ed820fd84cd6f812.ctex"
@@ -94,18 +96,6 @@ tracks/6/keys = {
 "update": 1,
 "values": [false]
 }
-tracks/7/type = "value"
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/path = NodePath(".:scale")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(-1, 1)]
-}
 
 [sub_resource type="Animation" id="Animation_ccunj"]
 resource_name = "attack_down"
@@ -178,10 +168,10 @@ tracks/5/path = NodePath("../HitBox:position")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.3),
+"times": PackedFloat32Array(0.2, 0.25, 0.3),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [Vector2(27.5, -65), Vector2(45, 0), Vector2(-45, 0)]
+"values": [Vector2(45, 0), Vector2(0, 45), Vector2(-45, 0)]
 }
 tracks/6/type = "value"
 tracks/6/imported = false
@@ -190,10 +180,10 @@ tracks/6/path = NodePath("../HitBox:rotation")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.3),
+"times": PackedFloat32Array(0.2, 0.25, 0.3),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [0.0, 1.5707964, 1.5707964]
+"values": [1.5707964, 3.1415927, 4.71238898038469]
 }
 
 [sub_resource type="Animation" id="Animation_182hf"]
@@ -271,18 +261,6 @@ tracks/5/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [true, false]
-}
-tracks/6/type = "value"
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/path = NodePath(".:scale")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(-1, 1)]
 }
 
 [sub_resource type="Animation" id="Animation_vcdsh"]
@@ -647,18 +625,24 @@ states/run/position = Vector2(499, 50)
 transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_e2led"), "idle", "run", SubResource("AnimationNodeStateMachineTransition_52lah"), "run", "idle", SubResource("AnimationNodeStateMachineTransition_ccunj"), "idle", "attack", SubResource("AnimationNodeStateMachineTransition_6s6yk"), "run", "attack", SubResource("AnimationNodeStateMachineTransition_dn0ll"), "attack", "idle", SubResource("AnimationNodeStateMachineTransition_hpkgf")]
 graph_offset = Vector2(-102, 27)
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_182hf"]
+radius = 24.0
+height = 76.0
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_182hf"]
 size = Vector2(8.5, 45.5)
 
-[node name="Player" type="CharacterBody2D" unique_id=435447785 node_paths=PackedStringArray("sprite", "animation_tree")]
+[node name="Player" type="CharacterBody2D" unique_id=435447785 node_paths=PackedStringArray("sprite", "animation_tree") groups=["player"]]
 script = ExtResource("1_vcdsh")
+death_packed = ExtResource("2_2ul2v")
+game_over_scene = ExtResource("3_2elb6")
 sprite = NodePath("Sprite")
 animation_tree = NodePath("AnimationTree")
 
 [node name="Sprite" type="Sprite2D" parent="." unique_id=1542390479]
 position = Vector2(0, -32.5)
-scale = Vector2(-1, 1)
 texture = SubResource("CompressedTexture2D_bdagp")
+flip_h = true
 hframes = 6
 vframes = 8
 
@@ -669,8 +653,6 @@ shape = SubResource("CircleShape2D_vcdsh")
 root_node = NodePath("../Sprite")
 libraries/ = SubResource("AnimationLibrary_ccunj")
 
-[node name="Camera" type="Camera2D" parent="." unique_id=899865986]
-
 [node name="AnimationTree" type="AnimationTree" parent="." unique_id=579633053]
 active = false
 root_node = NodePath("../Sprite")
@@ -678,6 +660,17 @@ tree_root = SubResource("AnimationNodeStateMachine_vdhum")
 anim_player = NodePath("../AnimationPlayer")
 parameters/attack/BlendSpace2D/blend_position = Vector2(0, 0)
 parameters/attack/TimeScale/scale = 0.7999999999999972
+
+[node name="HurtBox" type="Area2D" parent="." unique_id=1211897743]
+collision_layer = 32
+collision_mask = 0
+input_pickable = false
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox" unique_id=957212442]
+position = Vector2(1, -36)
+shape = SubResource("CapsuleShape2D_182hf")
+debug_color = Color(0.9999997, 0.013056019, 0.044672728, 0.41960785)
 
 [node name="HitBox" type="Area2D" parent="." unique_id=1572522112]
 position = Vector2(22.5, -70)
@@ -690,4 +683,5 @@ monitorable = false
 [node name="CollisionShape" type="CollisionShape2D" parent="HitBox" unique_id=696977848]
 shape = SubResource("RectangleShape2D_182hf")
 
+[connection signal="animation_finished" from="AnimationTree" to="." method="_on_animation_tree_animation_finished"]
 [connection signal="area_entered" from="HitBox" to="." method="_on_hit_box_area_entered"]

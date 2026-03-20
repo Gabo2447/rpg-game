@@ -1,0 +1,136 @@
+[gd_scene format=3 uid="uid://ciuprq8va436f"]
+
+[ext_resource type="Texture2D" uid="uid://bfpa4uv4ngd2b" path="res://src/ui/Buttons/Button_Blue_3Slides.png" id="1_ttmq8"]
+[ext_resource type="Script" uid="uid://dflsh1830hqbh" path="res://src/scripts/ui/main_menu.gd" id="1_x2oeq"]
+[ext_resource type="Texture2D" uid="uid://crxwdb1diug8c" path="res://src/ui/Buttons/Button_Blue_3Slides_Pressed.png" id="2_f5lm1"]
+[ext_resource type="Texture2D" uid="uid://dahms3rwukt65" path="res://src/ui/Buttons/Button_Hover_3Slides.png" id="3_x2oeq"]
+[ext_resource type="FontFile" uid="uid://lgodvl3gm23f" path="res://src/ui/fonts/PirataOne-Regular.ttf" id="4_f5lm1"]
+
+[node name="MainMenu" type="Control" unique_id=547476045]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_x2oeq")
+
+[node name="VerticalContainer" type="VBoxContainer" parent="." unique_id=1738463701]
+layout_mode = 0
+offset_right = 600.0
+offset_bottom = 1080.0
+theme_override_constants/separation = 25
+alignment = 1
+
+[node name="NewGame" type="TextureButton" parent="VerticalContainer" unique_id=2096782572]
+custom_minimum_size = Vector2(450, 150)
+layout_mode = 2
+size_flags_horizontal = 4
+texture_normal = ExtResource("1_ttmq8")
+texture_pressed = ExtResource("2_f5lm1")
+texture_hover = ExtResource("3_x2oeq")
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="VerticalContainer/NewGame" unique_id=1240032222]
+custom_minimum_size = Vector2(0, 120)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 23.0
+grow_horizontal = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.6862745)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_constants/shadow_outline_size = 16
+theme_override_fonts/font = ExtResource("4_f5lm1")
+theme_override_font_sizes/font_size = 60
+text = "New Game"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Settings" type="TextureButton" parent="VerticalContainer" unique_id=1153379203]
+custom_minimum_size = Vector2(450, 150)
+layout_mode = 2
+size_flags_horizontal = 4
+texture_normal = ExtResource("1_ttmq8")
+texture_pressed = ExtResource("2_f5lm1")
+texture_hover = ExtResource("3_x2oeq")
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="VerticalContainer/Settings" unique_id=254963284]
+custom_minimum_size = Vector2(0, 120)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 23.0
+grow_horizontal = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.6862745)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_constants/shadow_outline_size = 16
+theme_override_fonts/font = ExtResource("4_f5lm1")
+theme_override_font_sizes/font_size = 60
+text = "Settings"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="About" type="TextureButton" parent="VerticalContainer" unique_id=589792662]
+custom_minimum_size = Vector2(450, 150)
+layout_mode = 2
+size_flags_horizontal = 4
+texture_normal = ExtResource("1_ttmq8")
+texture_pressed = ExtResource("2_f5lm1")
+texture_hover = ExtResource("3_x2oeq")
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="VerticalContainer/About" unique_id=477814403]
+custom_minimum_size = Vector2(0, 120)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 23.0
+grow_horizontal = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.6862745)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_constants/shadow_outline_size = 16
+theme_override_fonts/font = ExtResource("4_f5lm1")
+theme_override_font_sizes/font_size = 60
+text = "About"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Spacer" type="Control" parent="VerticalContainer" unique_id=339824084]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+
+[node name="Exit" type="TextureButton" parent="VerticalContainer" unique_id=552690998]
+custom_minimum_size = Vector2(450, 150)
+layout_mode = 2
+size_flags_horizontal = 4
+texture_normal = ExtResource("1_ttmq8")
+texture_pressed = ExtResource("2_f5lm1")
+texture_hover = ExtResource("3_x2oeq")
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="VerticalContainer/Exit" unique_id=565396841]
+custom_minimum_size = Vector2(0, 120)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 23.0
+grow_horizontal = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.6862745)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_constants/shadow_outline_size = 16
+theme_override_fonts/font = ExtResource("4_f5lm1")
+theme_override_font_sizes/font_size = 60
+text = "Exit"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="pressed" from="VerticalContainer/NewGame" to="." method="_on_new_game_pressed"]
+[connection signal="pressed" from="VerticalContainer/Settings" to="." method="_on_settings_pressed"]
+[connection signal="pressed" from="VerticalContainer/About" to="." method="_on_about_pressed"]
+[connection signal="pressed" from="VerticalContainer/Exit" to="." method="_on_exit_pressed"]

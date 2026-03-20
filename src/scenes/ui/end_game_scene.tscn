@@ -1,0 +1,103 @@
+[gd_scene format=3 uid="uid://d0cxym828bj1v"]
+
+[ext_resource type="Script" uid="uid://c5jpx4icogl6g" path="res://src/scripts/ui/game_over.gd" id="1_k4x2o"]
+[ext_resource type="FontFile" uid="uid://lgodvl3gm23f" path="res://src/ui/fonts/PirataOne-Regular.ttf" id="2_7j6oc"]
+[ext_resource type="Texture2D" uid="uid://bfpa4uv4ngd2b" path="res://src/ui/Buttons/Button_Blue_3Slides.png" id="3_8ufel"]
+[ext_resource type="Texture2D" uid="uid://crxwdb1diug8c" path="res://src/ui/Buttons/Button_Blue_3Slides_Pressed.png" id="4_pqgiu"]
+[ext_resource type="Texture2D" uid="uid://dahms3rwukt65" path="res://src/ui/Buttons/Button_Hover_3Slides.png" id="5_5fxoe"]
+[ext_resource type="Texture2D" uid="uid://ctoc7ldabtdgp" path="res://src/assets/ui/Buttons/Button_Disable_3Slides.png" id="6_cp2ux"]
+
+[node name="EndGameScene" type="Control" unique_id=1327176667]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_k4x2o")
+
+[node name="Background" type="ColorRect" parent="." unique_id=727556798]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.47058824)
+
+[node name="VB" type="VBoxContainer" parent="." unique_id=160658163]
+layout_mode = 0
+offset_left = 508.0
+offset_top = 400.0
+offset_right = 1412.0
+offset_bottom = 679.0
+theme_override_constants/separation = 50
+
+[node name="Text" type="Label" parent="VB" unique_id=193708644]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_7j6oc")
+theme_override_font_sizes/font_size = 164
+text = "GAME OVER"
+horizontal_alignment = 1
+
+[node name="HB" type="HBoxContainer" parent="VB" unique_id=1468522643]
+layout_mode = 2
+theme_override_constants/separation = 100
+alignment = 1
+
+[node name="Replay" type="TextureButton" parent="VB/HB" unique_id=485043129]
+custom_minimum_size = Vector2(450, 120)
+layout_mode = 2
+size_flags_horizontal = 4
+texture_normal = ExtResource("3_8ufel")
+texture_pressed = ExtResource("4_pqgiu")
+texture_hover = ExtResource("5_5fxoe")
+texture_disabled = ExtResource("6_cp2ux")
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="VB/HB/Replay" unique_id=1470281541]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.578125
+grow_horizontal = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.6862745)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_constants/shadow_outline_size = 16
+theme_override_fonts/font = ExtResource("2_7j6oc")
+theme_override_font_sizes/font_size = 50
+text = "Replay"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="MainMenu" type="TextureButton" parent="VB/HB" unique_id=412295090]
+custom_minimum_size = Vector2(450, 120)
+layout_mode = 2
+texture_normal = ExtResource("3_8ufel")
+texture_pressed = ExtResource("4_pqgiu")
+texture_hover = ExtResource("5_5fxoe")
+texture_disabled = ExtResource("6_cp2ux")
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="VB/HB/MainMenu" unique_id=1954927396]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 65.0
+grow_horizontal = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.6862745)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_constants/shadow_outline_size = 16
+theme_override_fonts/font = ExtResource("2_7j6oc")
+theme_override_font_sizes/font_size = 50
+text = "Main Menu"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="pressed" from="VB/HB/Replay" to="." method="_on_retry_button_pressed"]
+[connection signal="pressed" from="VB/HB/MainMenu" to="." method="_on_left_button_pressed"]

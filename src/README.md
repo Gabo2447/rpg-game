@@ -33,11 +33,11 @@ src/
 ├── terrain/
 ├── ui/
 └── world/
-    ├── decoration/
-    ├── interactables/
-    ├── maps/
-    │   └── tile_map.tscn
-    └── npcs/
+	├── decoration/
+	├── interactables/
+	├── maps/
+	│   └── tile_map.tscn
+	└── npcs/
 ```
 
 **Después:**
@@ -66,8 +66,8 @@ src/
 │   └── world/
 │       └── tile_map.tscn
 └── scripts/                  # Todos los scripts .gd
-    └── characters/
-        └── player.gd
+	└── characters/
+		└── player.gd
 ```
 
 ### Archivos Movidos

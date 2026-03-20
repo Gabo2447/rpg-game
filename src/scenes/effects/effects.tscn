@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://biv23o2ofr4ci"]
+
+[ext_resource type="Script" uid="uid://dcsjltq6uov54" path="res://src/scripts/effects/effect_manager.gd" id="1_y6763"]
+
+[node name="Effects" type="Node2D" unique_id=2001319059]
+script = ExtResource("1_y6763")

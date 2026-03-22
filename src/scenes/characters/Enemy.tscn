@@ -1,8 +1,15 @@
 [gd_scene format=3 uid="uid://b00byswt73lbq"]
 
-[ext_resource type="Script" uid="uid://dc21s2lfys1v" path="res://src/scripts/characters/enemy.gd" id="1_3ufi4"]
+[ext_resource type="Script" uid="uid://dc21s2lfys1v" path="res://src/scripts/characters/enemy/enemy.gd" id="1_3ufi4"]
 [ext_resource type="Texture2D" uid="uid://b13ncppube0hx" path="res://src/assets/sprites/characters/Knights/Troops/Warrior/Red/Warrior_Red.png" id="1_c5eaa"]
+[ext_resource type="Resource" uid="uid://ds66n5tb24pn" path="res://src/resources/curves/enemy_stas.tres" id="2_6xg6x"]
 [ext_resource type="PackedScene" uid="uid://loxujlrkmpqk" path="res://src/scenes/effects/death.tscn" id="2_s8icc"]
+[ext_resource type="Script" uid="uid://btn6a1hdydp6j" path="res://src/scripts/components/HitboxComponent.gd" id="4_elwtn"]
+[ext_resource type="PackedScene" uid="uid://d4k4d5dfqjt6i" path="res://src/scenes/systems/life/health_component.tscn" id="4_tji65"]
+[ext_resource type="Script" uid="uid://df4txkod0fkfy" path="res://src/scripts/core/states/StateMachine.gd" id="6_7roip"]
+[ext_resource type="Script" uid="uid://dy3aa1alx6jje" path="res://src/scripts/characters/enemy/states/enemy_state_idle.gd" id="7_vg8s0"]
+[ext_resource type="Script" uid="uid://bd67d6t8ythr8" path="res://src/scripts/characters/enemy/states/enemy_state_chase.gd" id="8_6xg6x"]
+[ext_resource type="Script" uid="uid://yggn280q2ca2" path="res://src/scripts/characters/enemy/states/enemy_state_attack.gd" id="9_qx4no"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_vcdsh"]
 radius = 20.0
@@ -514,20 +521,22 @@ states/run/position = Vector2(499, 50)
 transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_e2led"), "idle", "run", SubResource("AnimationNodeStateMachineTransition_52lah"), "run", "idle", SubResource("AnimationNodeStateMachineTransition_ccunj"), "idle", "attack", SubResource("AnimationNodeStateMachineTransition_6s6yk"), "run", "attack", SubResource("AnimationNodeStateMachineTransition_dn0ll"), "attack", "idle", SubResource("AnimationNodeStateMachineTransition_hpkgf")]
 graph_offset = Vector2(-102, 27)
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_3ufi4"]
-radius = 24.0
-height = 76.0
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_s8icc"]
 size = Vector2(8.5, 45.5)
 
-[node name="enemy" type="CharacterBody2D" unique_id=435447785 node_paths=PackedStringArray("animation_tree", "sprite", "navigation_agent")]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_5m6gx"]
+radius = 21.0
+height = 68.0
+
+[node name="enemy" type="CharacterBody2D" unique_id=435447785 node_paths=PackedStringArray("animation_tree", "sprite", "navigation_agent", "health_component", "state_machine")]
 script = ExtResource("1_3ufi4")
-attack_damage = 50
-death_packed = ExtResource("2_s8icc")
 animation_tree = NodePath("AnimationTree")
 sprite = NodePath("Sprite")
 navigation_agent = NodePath("NavigationAgent2D")
+health_component = NodePath("HealthComponent")
+state_machine = NodePath("StateMachine")
+stats = ExtResource("2_6xg6x")
+death_packed = ExtResource("2_s8icc")
 
 [node name="Sprite" type="Sprite2D" parent="." unique_id=1542390479]
 position = Vector2(0, -32.5)
@@ -550,24 +559,16 @@ anim_player = NodePath("../AnimationPlayer")
 parameters/attack/BlendSpace2D/blend_position = Vector2(-0.42540497, 0.40890694)
 parameters/attack/TimeScale/scale = 0.7999999999999972
 
-[node name="HurtBox" type="Area2D" parent="." unique_id=1807939387]
-collision_layer = 16
-collision_mask = 0
-input_pickable = false
-monitoring = false
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox" unique_id=1407660292]
-position = Vector2(1, -36)
-shape = SubResource("CapsuleShape2D_3ufi4")
-debug_color = Color(0.9999997, 0.013056019, 0.044672728, 0.41960785)
-
-[node name="HitBox" type="Area2D" parent="." unique_id=143829578]
-position = Vector2(-50, -25)
-rotation = 1.3526301
+[node name="HitBox" type="Area2D" parent="." unique_id=723609673]
+position = Vector2(45, 0)
+rotation = 1.5707964
 collision_layer = 0
 collision_mask = 32
 input_pickable = false
 monitorable = false
+script = ExtResource("4_elwtn")
+damage = 15
+metadata/_custom_type_script = "uid://btn6a1hdydp6j"
 
 [node name="CollisionShape" type="CollisionShape2D" parent="HitBox" unique_id=1658027686]
 shape = SubResource("RectangleShape2D_s8icc")
@@ -580,6 +581,31 @@ avoidance_enabled = true
 debug_enabled = true
 debug_path_custom_color = Color(1, 0, 0, 1)
 
+[node name="HealthComponent" parent="." unique_id=524702127 instance=ExtResource("4_tji65")]
+position = Vector2(0, -35)
+collision_layer = 16
+collision_mask = 0
+stats = ExtResource("2_6xg6x")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HealthComponent" unique_id=1500988336]
+position = Vector2(0, 1)
+shape = SubResource("CapsuleShape2D_5m6gx")
+
+[node name="StateMachine" type="Node" parent="." unique_id=2129956563 node_paths=PackedStringArray("default_state")]
+script = ExtResource("6_7roip")
+default_state = NodePath("EnemyStateIdle")
+metadata/_custom_type_script = "uid://df4txkod0fkfy"
+
+[node name="EnemyStateIdle" type="Node" parent="StateMachine" unique_id=514568457]
+script = ExtResource("7_vg8s0")
+
+[node name="EnemyStateChase" type="Node" parent="StateMachine" unique_id=156733713]
+script = ExtResource("8_6xg6x")
+
+[node name="EnemyStateAttack" type="Node" parent="StateMachine" unique_id=353274092]
+script = ExtResource("9_qx4no")
+
 [connection signal="animation_finished" from="AnimationTree" to="." method="_on_animation_tree_animation_finished"]
+[connection signal="animation_finished" from="AnimationTree" to="StateMachine/EnemyStateAttack" method="_on_animation_tree_animation_finished"]
 [connection signal="area_entered" from="HitBox" to="." method="_on_hit_box_area_entered"]
 [connection signal="velocity_computed" from="NavigationAgent2D" to="." method="_on_navigation_agent_2d_velocity_computed"]
